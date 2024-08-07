@@ -1,4 +1,3 @@
-// pages/todos/[id]/edit.js
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { fetchTodoById, updateTodo } from "../../../utils/api";

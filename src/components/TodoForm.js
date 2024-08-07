@@ -15,9 +15,9 @@ const TodoForm = ({ initialTodo, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) return; // Ensure title is not empty
+    if (!title) return; 
     onSubmit({ title, completed });
-    setTitle(""); // Clear the form fields after submission
+    setTitle(""); 
     setCompleted(false);
   };
 
