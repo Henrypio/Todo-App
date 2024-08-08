@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchTodos, createTodo, deleteTodo } from "../src/utils/api";
+import { fetchTodos, createTodo, deleteTodo } from "../utils/api";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";

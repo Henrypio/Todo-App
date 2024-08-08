@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { fetchTodoById } from "../../src/utils/api";
+import { fetchTodoById } from "../../utils/api";
 
 const TodoDetail = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { fetchTodoById, updateTodo } from "../../../src/utils/api";
+import { fetchTodoById, updateTodo } from "../../../utils/api";
 import TodoForm from "../../../components/TodoForm";
 
 const EditTodo = () => {
