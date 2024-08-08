@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { fetchTodos, createTodo, deleteTodo } from "../utils/api";
+import { fetchTodos, createTodo, deleteTodo } from "../src/utils/api";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
-export default function Home()  {
+export default function Home() {
   const [todos, setTodos] = useState([]);
-  const [darkMode, setDarkMode] = useState(true); 
-  
+  const [darkMode, setDarkMode] = useState(true);
+
   useEffect(() => {
     const getTodos = async () => {
       const todos = await fetchTodos();
@@ -79,5 +79,4 @@ export default function Home()  {
       </div>
     </div>
   );
-};
-
+}
