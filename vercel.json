@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "src/pages/**/*",
-      "use": "@vercel/node"
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/pages/$1"
     }
   ]
 }
