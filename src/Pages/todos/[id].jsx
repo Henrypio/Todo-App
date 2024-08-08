@@ -39,11 +39,11 @@ const TodoDetail = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center xs:px-5 md:px-10">
-      <div className="container mx-auto  p-4 flex flex-col border-4 w-full  sm:w-2/3 lg:w-1/2">
+      <div className="container mx-auto  p-4 flex flex-col  w-full  sm:w-2/3 lg:w-1/2">
         <h1 className="text-2xl  font-bold mb-4 text-white-950 text-center">
           Todo Detail
         </h1>
-        <div className="p-4 border-4 rounded">
+        <div className="p-4 ">
           <h2 className="text-xl text-white-950">{todo.title}</h2>
           <p className="text-white-950 ">ID: {todo.id}</p>
           <p className="text-white-950 ">
@@ -52,7 +52,7 @@ const TodoDetail = () => {
         </div>
         <button
           onClick={() => router.push("/")}
-          className="mt-4 p-2 bg-white-500 text-white rounded"
+          className="mt-4 p-2 border-2  bg-blue-500 text-white rounded"
         >
           Go Back
         </button>

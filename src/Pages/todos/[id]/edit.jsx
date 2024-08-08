@@ -40,7 +40,7 @@ const EditTodo = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="container mx-auto  p-4 flex flex-col border-4 w-full  sm:w-2/3 lg:w-1/2">
+      <div className="container mx-auto  p-4 flex flex-col   sm:w-2/3 lg:w-1/2">
         <h1 className="text-2xl font-bold mb-4 text-center">Edit Todo</h1>
         <TodoForm initialTodo={todo} onSubmit={handleEdit} />
       </div>

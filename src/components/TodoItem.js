@@ -7,7 +7,7 @@ import {
 
 const TodoItem = ({ todo, onDelete }) => {
   return (
-    <div className="flex justify-between text-gray-950 dark:text-gray-200 items-center gap-4 p-4 border-2 border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 rounded w-full sm:w-2/3 lg:w-1/2 mx-auto">
+    <div className="flex justify-between text-gray-950 dark:text-gray-200 items-center gap-4 p-4  dark:border-gray-700 bg-gray-100 dark:bg-gray-800 rounded w-full sm:w-2/3 lg:w-1/2 mx-auto">
       <div>
         <h3 className={`${todo.completed ? "line-through" : ""}`}>
           {todo.title}

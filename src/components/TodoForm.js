@@ -24,14 +24,14 @@ const TodoForm = ({ initialTodo, onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 p-4 border-2  bg-gray-300 rounded w-full sm:w-2/3 lg:w-1/2 mx-auto"
+      className="flex flex-col gap-4 p-4   bg-gray-300 rounded w-full sm:w-2/3 lg:w-1/2 mx-auto"
     >
       <input
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="p-2 border rounded w-full text-gray-950 "
+        className="p-2  text-gray-950 "
       />
       <label className="flex items-center text-gray-950  gap-2">
         <input
