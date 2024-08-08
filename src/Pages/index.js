@@ -6,8 +6,8 @@ import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
-  const [darkMode, setDarkMode] = useState(true); // Set default mode to dark
-
+  const [darkMode, setDarkMode] = useState(true); 
+  
   useEffect(() => {
     const getTodos = async () => {
       const todos = await fetchTodos();
