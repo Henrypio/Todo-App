@@ -26,8 +26,12 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  html {
+    @apply bg-gray-200 text-gray-900;
+  }
+
+  .dark html {
+    @apply bg-gray-900 text-gray-100;
   }
 }

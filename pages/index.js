@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import { fetchTodos, createTodo, deleteTodo } from "../utils/api";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
+import { fetchTodos, createTodo, updateTodo, deleteTodo } from "../utils/api";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
-    const getTodos = async () => {
+    const loadTodos = async () => {
       const todos = await fetchTodos();
       setTodos(todos);
     };
-    getTodos();
+    loadTodos();
 
     // Apply dark mode class on mount if darkMode is true
     if (darkMode) {
@@ -21,14 +22,32 @@ export default function Home() {
     }
   }, [darkMode]);
 
+  
   const addTodo = async (todo) => {
-    const newTodo = await createTodo(todo);
-    setTodos([newTodo, ...todos]);
+    try {
+      const newTodo = await createTodo(todo);
+      setTodos([newTodo, ...todos]);
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
   };
 
-  const deleteTodoItem = async (id) => {
-    await deleteTodo(id);
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleUpdateTodo = async (id, updatedTodo) => {
+    try {
+      const updated = await updateTodo(id, updatedTodo);
+      setTodos(todos.map((todo) => (todo.id === id ? updated : todo)));
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
+  };
+
+  const handleDeleteTodo = async (id) => {
+    try {
+      await deleteTodo(id);
+      setTodos(todos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
   const toggleDarkMode = () => {
@@ -71,7 +90,8 @@ export default function Home() {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onDelete={deleteTodoItem}
+              onDelete={handleDeleteTodo}
+              onUpdate={handleUpdateTodo}
               className="text-gray-950 dark:text-gray-200"
             />
           ))}
