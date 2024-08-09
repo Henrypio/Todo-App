@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { createTodo, updateTodo } from "../utils/api";
-import { getNextUniqueId } from "../utils/localStorage";
+import {
+  getNextUniqueId,
+  getTodosFromLocalStorage,
+} from "../utils/localStorage";
 
 const TodoForm = ({ initialTodo, onSubmit }) => {
   const [title, setTitle] = useState(initialTodo ? initialTodo.title : "");
   const [completed, setCompleted] = useState(
     initialTodo ? initialTodo.completed : false
   );
-  const [error, setError] = useState(""); // For displaying form errors
-
+  const [error, setError] = useState("");
   useEffect(() => {
     if (initialTodo) {
       setTitle(initialTodo.title);
@@ -16,43 +18,53 @@ const TodoForm = ({ initialTodo, onSubmit }) => {
     }
   }, [initialTodo]);
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   if (!title.trim()) {
-     setError("Title is required");
-     return; // Prevent form submission if title is empty
-   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-   setError(""); // Clear previous errors
-   const todoData = {
-     title: title.trim(),
-     completed,
-   };
+    if (!title.trim()) {
+      setError("Title is required");
+      return; // Prevent form submission if title is empty
+    }
 
-   console.log("Submitting todo data:", todoData);
+    setError(""); // Clear previous errors
+    const todoData = {
+      title: title.trim(),
+      completed,
+    };
 
-   try {
-     let result;
-     if (initialTodo) {
-       // Update existing todo
-       result = await updateTodo(initialTodo.id, {
-         ...todoData,
-         id: initialTodo.id,
-       });
-     } else {
-       // Create new todo
-       result = await createTodo(todoData);
-       // Reset form fields after creating a new todo
-       setTitle("");
-       setCompleted(false);
-     }
+    try {
+      let result;
+      if (initialTodo) {
+        const todosFromLocal = getTodosFromLocalStorage();
+        const isFromLocal = todosFromLocal.some(
+          (todo) => todo.id === initialTodo.id
+        );
 
-     onSubmit(result);
-   } catch (error) {
-     console.error("Failed to save todo:", error);
-     setError("Failed to save todo. Please try again.");
-   }
- };
+        if (isFromLocal) {
+          result = await updateTodo(
+            initialTodo.id,
+            { ...todoData, id: initialTodo.id },
+            "local"
+          );
+        } else {
+          result = await updateTodo(
+            initialTodo.id,
+            { ...todoData, id: initialTodo.id },
+            "api"
+          );
+        }
+      } else {
+        result = await createTodo(todoData);
+        setTitle("");
+        setCompleted(false);
+      }
+
+      onSubmit(result);
+    } catch (error) {
+      console.error("Failed to save todo:", error);
+      setError("Failed to save todo. Please try again.");
+    }
+  };
 
   return (
     <form
@@ -78,6 +90,7 @@ const TodoForm = ({ initialTodo, onSubmit }) => {
       <button type="submit" className="p-2 bg-blue-500 text-white rounded">
         {initialTodo ? "Update" : "Create"}
       </button>
+      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 };

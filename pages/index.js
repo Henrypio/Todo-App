@@ -4,6 +4,10 @@ import TodoItem from "../components/TodoItem";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import { fetchTodos, createTodo, updateTodo, deleteTodo } from "../utils/api";
 import { v4 as uuidv4 } from "uuid";
+import {
+  getTodosFromLocalStorage,
+  saveTodosToLocalStorage,
+} from "../utils/localStorage";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
@@ -23,32 +27,28 @@ export default function Home() {
   }, [darkMode]);
 
   
-  const addTodo = async (todo) => {
-    try {
-      const newTodo = await createTodo(todo);
-      setTodos([newTodo, ...todos]);
-    } catch (error) {
-      console.error("Error adding todo:", error);
-    }
-  };
+   const addTodo = async (todo) => {
+     const newTodo = await createTodo(todo); // Create and save the todo
+     setTodos((prevTodos) => [newTodo, ...prevTodos]); // Add the new todo to the existing list
+   };
 
-  const handleUpdateTodo = async (id, updatedTodo) => {
-    try {
-      const updated = await updateTodo(id, updatedTodo);
-      setTodos(todos.map((todo) => (todo.id === id ? updated : todo)));
-    } catch (error) {
-      console.error("Error updating todo:", error);
-    }
-  };
+    const handleUpdateTodo = async (id, updatedTodo) => {
+      const updated = await updateTodo(id, updatedTodo); // Update in API
+      const todos = getTodosFromLocalStorage(); // Update localStorage
+      const updatedTodos = todos.map((todo) =>
+        todo.id === id ? updated : todo
+      );
+      saveTodosToLocalStorage(updatedTodos);
+      setTodos(updatedTodos); // Update state with the latest list
+    };
 
-  const handleDeleteTodo = async (id) => {
-    try {
-      await deleteTodo(id);
-      setTodos(todos.filter((todo) => todo.id !== id));
-    } catch (error) {
-      console.error("Error deleting todo:", error);
-    }
-  };
+   const handleDeleteTodo = async (id) => {
+     await deleteTodo(id); // Remove from API
+     const todos = getTodosFromLocalStorage(); // Update localStorage
+     const updatedTodos = todos.filter((todo) => todo.id !== id);
+     saveTodosToLocalStorage(updatedTodos);
+     setTodos(updatedTodos); // Update state with the latest list
+   };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
